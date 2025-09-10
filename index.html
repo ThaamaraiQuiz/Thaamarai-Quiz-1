@@ -1,0 +1,122 @@
+<!DOCTYPE html><html lang="ta">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thaamarai Quiz</title>
+  <style>
+    body {
+      font-family: 'Latha', 'Noto Sans Tamil', sans-serif;
+      background: #ffe6f2;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+    }
+    h1 {
+      color: #cc0066;
+    }
+    .question {
+      margin: 20px 0;
+      font-size: 1.2em;
+    }
+    .choices button {
+      display: block;
+      width: 100%;
+      margin: 5px 0;
+      padding: 10px;
+      background: #fff;
+      border: 2px solid #cc0066;
+      border-radius: 10px;
+      font-size: 1em;
+    }
+    .choices button:hover {
+      background: #ffccdd;
+    }
+    #result {
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>தாமரை Quiz 🌸</h1>
+    <div id="quiz"></div>
+    <div id="result"></div>
+  </div>  <audio id="bgm" loop autoplay>
+    <source src="neeyum-naanum.mp3" type="audio/mpeg">
+    உங்கள் உலாவி ஆடியோவை ஆதரிக்கவில்லை.
+  </audio>  <script>
+    const quiz = [
+      {
+        q: "இதிலிருந்து தாமரை பாடல்கள் எவை?",
+        choices: ["ஒரு மாலை", "முன்பே வா", "தொட்டு தொட்டு", "இதயம் இந்த இதயம்"],
+        answer: 0
+      },
+      {
+        q: "தாமரை பாடல்களில் ஆங்கிலத்தை பயன்படுத்துவதில் பிரபலமானவர்",
+        choices: ["உண்மை", "தவறு"],
+        answer: 1
+      },
+      {
+        q: "தாமரை எதற்கு பிரபலமானவர்",
+        choices: ["உணர்ச்சி மற்றும் காதல் பாடல்கள்", "நகைச்சுவை பாடல்கள்", "ஆக்சன் பாடல்கள்", "ரேப் பாடல்கள்"],
+        answer: 0
+      },
+      {
+        q: "தாமரை ஒரு பெண்கலைஞர்; இந்த துறையில் நீண்ட காலமாக பணியாற்றியுள்ளார்",
+        choices: ["உண்மை", "தவறு"],
+        answer: 0
+      },
+      {
+        q: "தாமரையின் பாடல்கள் எளிய வார்த்தைகள் கொண்டவை அல்ல. அவர் எப்போதும் கடினமான தமிழ் பயன்படுத்துகிறார்",
+        choices: ["உண்மை", "தவறு"],
+        answer: 1
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    const quizEl = document.getElementById("quiz");
+    const resultEl = document.getElementById("result");
+
+    function showQuestion() {
+      if (currentQuestion >= quiz.length) {
+        quizEl.innerHTML = "";
+        resultEl.innerHTML = `🎉 நீங்கள் ${quiz.length}-இல் ${score} மதிப்பெண்கள் பெற்றுள்ளீர்கள்!`;
+        return;
+      }
+
+      const q = quiz[currentQuestion];
+      let html = `<div class='question'>${q.q}</div>`;
+      html += "<div class='choices'>";
+      q.choices.forEach((choice, i) => {
+        html += `<button onclick='checkAnswer(${i})'>${choice}</button>`;
+      });
+      html += "</div>";
+      quizEl.innerHTML = html;
+    }
+
+    function checkAnswer(selected) {
+      if (selected === quiz[currentQuestion].answer) {
+        score++;
+      }
+      currentQuestion++;
+      showQuestion();
+    }
+
+    showQuestion();
+
+    // Autoplay workaround for browsers (require user interaction)
+    document.body.addEventListener('click', () => {
+      const bgm = document.getElementById('bgm');
+      bgm.play().catch(() => {});
+    }, { once: true });
+  </script></body>
+</html>
